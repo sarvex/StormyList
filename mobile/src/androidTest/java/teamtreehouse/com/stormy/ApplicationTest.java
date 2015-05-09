@@ -1,4 +1,4 @@
-package teamtreehouse.com.stormy;
+package sarvex.com.stormy;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

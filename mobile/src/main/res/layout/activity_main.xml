@@ -100,7 +100,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/precipLabel"
+                android:id="@+id/precipitationLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
@@ -108,7 +108,7 @@
                 android:textColor="#80ffffff"/>
 
             <TextView
-                android:id="@+id/precipValue"
+                android:id="@+id/precipitationValue"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
