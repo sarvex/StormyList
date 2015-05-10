@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="--"
+        android:text="@string/blank"
         android:textColor="@android:color/white"
         android:textSize="150sp"/>
 
@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/degreeImageView"
         android:layout_centerHorizontal="true"
-        android:text="..."
+        android:text="@string/ellipsis"
         android:textColor="#80ffffff"
         android:textSize="18sp"/>
 
@@ -45,7 +45,7 @@
         android:layout_above="@+id/timeLabel"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="60dp"
-        android:text="Alcatraz Island, CA"
+        android:text="@string/location"
         android:textColor="@android:color/white"
         android:textSize="24sp"/>
 
@@ -79,7 +79,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:text="HUMIDITY"
+                android:text="@string/humity"
                 android:textColor="#80ffffff"/>
 
             <TextView
@@ -87,7 +87,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:text="--"
+                android:text="@string/blank"
                 android:textColor="@android:color/white"
                 android:textSize="24sp"/>
         </LinearLayout>
@@ -103,7 +103,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:text="RAIN/SNOW?"
+                android:text="@string/rain_snow"
                 android:textColor="#80ffffff"/>
 
             <TextView
@@ -111,7 +111,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
-                android:text="--"
+                android:text="@string/blank"
                 android:textColor="@android:color/white"
                 android:textSize="24sp"/>
         </LinearLayout>
@@ -125,7 +125,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp"
         android:gravity="center_horizontal"
-        android:text="Getting current weather..."
+        android:text="@string/getting_current_weather"
         android:textColor="@android:color/white"
         android:textSize="18dp"/>
 
@@ -146,6 +146,7 @@
         android:layout_centerHorizontal="true"/>
 
     <LinearLayout
+        style="?android:buttonBarButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -154,20 +155,22 @@
 
         <Button
             android:id="@+id/hourlyButton"
+            style="?android:buttonBarButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="#40ffffff"
-            android:text="Hourly"
+            android:text="@string/hourly"
             android:textColor="#ffffffff"/>
 
         <Button
             android:id="@+id/dailyButton"
+            style="?android:buttonBarButtonStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="#40ffffff"
-            android:text="7 DAY"
+            android:text="@string/seven_days"
             android:textColor="#ffffffff"/>
     </LinearLayout>
 

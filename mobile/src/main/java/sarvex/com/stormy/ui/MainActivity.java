@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ import com.squareup.okhttp.Call;
 import com.squareup.okhttp.Callback;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
+import com.squareup.okhttp.Request.Builder;
 import com.squareup.okhttp.Response;
 
 import org.json.JSONArray;
@@ -29,7 +31,9 @@ import java.io.IOException;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
-import sarvex.com.stormy.R;
+import sarvex.com.stormy.R.id;
+import sarvex.com.stormy.R.layout;
+import sarvex.com.stormy.R.string;
 import sarvex.com.stormy.weather.Current;
 import sarvex.com.stormy.weather.Day;
 import sarvex.com.stormy.weather.Forecast;
@@ -39,28 +43,29 @@ import sarvex.com.stormy.weather.Hour;
 public class MainActivity extends ActionBarActivity {
 
     public static final String TAG = MainActivity.class.getSimpleName();
-    @InjectView(R.id.timeLabel)
+    public static final String DAILY_FORECAST = "DAILY_FORECAST";
+    @InjectView(id.timeLabel)
     TextView timeLabel;
 
-    @InjectView(R.id.temperatureLabel)
+    @InjectView(id.temperatureLabel)
     TextView temperatureLabel;
 
-    @InjectView(R.id.humidityValue)
+    @InjectView(id.humidityValue)
     TextView humidityValue;
 
-    @InjectView(R.id.precipitationValue)
+    @InjectView(id.precipitationValue)
     TextView precipitationValue;
 
-    @InjectView(R.id.summaryLabel)
+    @InjectView(id.summaryLabel)
     TextView summaryLabel;
 
-    @InjectView(R.id.iconImageView)
+    @InjectView(id.iconImageView)
     ImageView iconImageView;
 
-    @InjectView(R.id.refreshImageView)
+    @InjectView(id.refreshImageView)
     ImageView refreshImageView;
 
-    @InjectView(R.id.progressBar)
+    @InjectView(id.progressBar)
     ProgressBar progressBar;
 
     private Forecast forecast;
@@ -68,7 +73,7 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(layout.activity_main);
         ButterKnife.inject(this);
 
         progressBar.setVisibility(View.INVISIBLE);
@@ -76,7 +81,7 @@ public class MainActivity extends ActionBarActivity {
         final double latitude = 37.8267;
         final double longitude = -122.423;
 
-        refreshImageView.setOnClickListener(new View.OnClickListener() {
+        refreshImageView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 getForecast(latitude, longitude);
@@ -85,7 +90,7 @@ public class MainActivity extends ActionBarActivity {
 
         getForecast(latitude, longitude);
 
-        Log.d(TAG, "Main UI code is running!");
+        Log.d(MainActivity.TAG, "Main UI code is running!");
     }
 
     private void getForecast(double latitude, double longitude) {
@@ -97,7 +102,7 @@ public class MainActivity extends ActionBarActivity {
             toggleRefresh();
 
             OkHttpClient client = new OkHttpClient();
-            Request request = new Request.Builder()
+            Request request = new Builder()
                     .url(forecastUrl)
                     .build();
 
@@ -125,7 +130,7 @@ public class MainActivity extends ActionBarActivity {
 
                     try {
                         String jsonData = response.body().string();
-                        Log.v(TAG, jsonData);
+                        Log.v(MainActivity.TAG, jsonData);
                         if (response.isSuccessful()) {
                             forecast = parseForecastDetails(jsonData);
                             runOnUiThread(new Runnable() {
@@ -139,16 +144,16 @@ public class MainActivity extends ActionBarActivity {
                         }
                     }
                     catch (IOException e) {
-                        Log.e(TAG, "Exception caught: ", e);
+                        Log.e(MainActivity.TAG, "Exception caught: ", e);
                     }
                     catch (JSONException e) {
-                        Log.e(TAG, "Exception caught: ", e);
+                        Log.e(MainActivity.TAG, "Exception caught: ", e);
                     }
                 }
             });
         }
         else {
-            Toast.makeText(this, getString(R.string.network_unavailable_message),
+            Toast.makeText(this, getString(string.network_unavailable_message),
                     Toast.LENGTH_LONG).show();
         }
     }
@@ -220,7 +225,7 @@ public class MainActivity extends ActionBarActivity {
     private Current getCurrentDetails(String json) throws JSONException {
         JSONObject forecast = new JSONObject(json);
         String timezone = forecast.getString("timezone");
-        Log.i(TAG, "From JSON: " + timezone);
+        Log.i(MainActivity.TAG, "From JSON: " + timezone);
 
         JSONObject currently = forecast.getJSONObject("currently");
 
@@ -233,7 +238,7 @@ public class MainActivity extends ActionBarActivity {
         current.setTemperature(currently.getDouble("temperature"));
         current.setTimezone(timezone);
 
-        Log.d(TAG, current.getFormattedTime());
+        Log.d(MainActivity.TAG, current.getFormattedTime());
 
         return current;
     }
@@ -256,9 +261,9 @@ public class MainActivity extends ActionBarActivity {
         dialog.show(getFragmentManager(), "error_dialog");
     }
 
-    @OnClick(R.id.dailyButton)
+    @OnClick(id.dailyButton)
     public void startDailyActivity(View view) {
-        startActivity(new Intent(this, DailyForecastActivity.class));
+        startActivity(new Intent(this, DailyForecastActivity.class).putExtra(MainActivity.DAILY_FORECAST, forecast.getDailyForecast()));
     }
 }
 

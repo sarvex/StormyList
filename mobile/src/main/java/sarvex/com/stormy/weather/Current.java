@@ -2,9 +2,8 @@ package sarvex.com.stormy.weather;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
-
-import sarvex.com.stormy.R.drawable;
 
 public class Current {
     private String icon;
@@ -31,35 +30,6 @@ public class Current {
         this.icon = icon;
     }
 
-    public int getIconId() {
-        // clear-day, clear-night, rain, snow, sleet, wind, fog, cloudy, partly-cloudy-day, or partly-cloudy-night.
-        int iconId = drawable.clear_day;
-
-        if (icon.equals("clear-day")) {
-            iconId = drawable.clear_day;
-        } else if (icon.equals("clear-night")) {
-            iconId = drawable.clear_night;
-        } else if (icon.equals("rain")) {
-            iconId = drawable.rain;
-        } else if (icon.equals("snow")) {
-            iconId = drawable.snow;
-        } else if (icon.equals("sleet")) {
-            iconId = drawable.sleet;
-        } else if (icon.equals("wind")) {
-            iconId = drawable.wind;
-        } else if (icon.equals("fog")) {
-            iconId = drawable.fog;
-        } else if (icon.equals("cloudy")) {
-            iconId = drawable.cloudy;
-        } else if (icon.equals("partly-cloudy-day")) {
-            iconId = drawable.partly_cloudy;
-        } else if (icon.equals("partly-cloudy-night")) {
-            iconId = drawable.cloudy_night;
-        }
-
-        return iconId;
-    }
-
     public long getTime() {
         return time;
     }
@@ -69,7 +39,7 @@ public class Current {
     }
 
     public String getFormattedTime() {
-        SimpleDateFormat formatter = new SimpleDateFormat("h:mm a");
+        SimpleDateFormat formatter = new SimpleDateFormat("h:mm a", Locale.getDefault());
         formatter.setTimeZone(TimeZone.getTimeZone(getTimezone()));
         Date dateTime = new Date(getTime() * 1000);
         String timeString = formatter.format(dateTime);
@@ -107,5 +77,9 @@ public class Current {
 
     public void setSummary(String summary) {
         this.summary = summary;
+    }
+
+    public int getIconId() {
+        return Forecast.getIconId(icon);
     }
 }

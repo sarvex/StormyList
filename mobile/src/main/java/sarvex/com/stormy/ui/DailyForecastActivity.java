@@ -2,17 +2,29 @@ package sarvex.com.stormy.ui;
 
 import android.app.ListActivity;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.Arrays;
+
 import sarvex.com.stormy.R.layout;
+import sarvex.com.stormy.adapters.DayAdapter;
+import sarvex.com.stormy.weather.Day;
 
 public class DailyForecastActivity extends ListActivity {
+
+    private Day[] days;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(layout.activity_daily_forecast);
+
+        Parcelable[] parcelables = getIntent().getParcelableArrayExtra(MainActivity.DAILY_FORECAST);
+        days = Arrays.copyOf(parcelables, parcelables.length, Day[].class);
+
+        DayAdapter adapter = new DayAdapter(this, days);
     }
 
     @Override
@@ -29,7 +41,6 @@ public class DailyForecastActivity extends ListActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == id.action_settings) {
             return true;
         }
