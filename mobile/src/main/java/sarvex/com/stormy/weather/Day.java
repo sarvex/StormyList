@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 public class Day implements Parcelable {
-    public static final Parcelable.Creator<Day> CREATOR = new Parcelable.Creator<Day>() {
+    public static final Creator<Day> CREATOR = new Creator<Day>() {
         @Override
         public Day createFromParcel(Parcel parcel) {
             return new Day(parcel);
@@ -19,6 +19,7 @@ public class Day implements Parcelable {
             return new Day[size];
         }
     };
+
     private long time;
     private String summary;
     private double temperatureMax;

@@ -1,11 +1,18 @@
 package sarvex.com.stormy.weather;
 
-public class Hour {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+@org.parceler.Parcel
+public class Hour implements Parcelable {
     private long time;
     private String summary;
     private double temperature;
     private String icon;
     private String timezone;
+
+    public Hour() {
+    }
 
     public long getTime() {
         return time;
@@ -45,5 +52,36 @@ public class Hour {
 
     public void setTimezone(String timezone) {
         this.timezone = timezone;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int flags) {
+        parcel.writeLong(time);
+        parcel.writeString(summary);
+        parcel.writeDouble(temperature);
+        parcel.writeString(icon);
+        parcel.writeString(timezone);
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int flags) {
+        parcel.writeLong(time);
+        parcel.writeString(summary);
+        parcel.writeDouble(temperature);
+        parcel.writeString(icon);
+        parcel.writeString(timezone);
+    }
+
+    private Hour(Parcel parcel) {
+        time = parcel.readLong();
+        summary = parcel.readString();
+        temperature = parcel.readDouble();
+        icon = parcel.readString();
+        timezone = parcel.readString();
     }
 }
