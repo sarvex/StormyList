@@ -1,36 +1,24 @@
-package sarvex.com.stormy.ui;
+package com.sarvex.stormy.ui;
 
-import android.app.ListActivity;
 import android.os.Bundle;
-import android.os.Parcelable;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import java.util.Arrays;
+import com.sarvex.stormy.R.layout;
 
-import sarvex.com.stormy.R;
-import sarvex.com.stormy.adapters.DayAdapter;
-import sarvex.com.stormy.weather.Day;
-
-public class DailyForecastActivity extends ListActivity {
-
-    private Day[] days;
+public class HourlyForecastActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_daily_forecast);
-
-        Parcelable[] parcelables = getIntent().getParcelableArrayExtra(MainActivity.DAILY_FORECAST);
-        days = Arrays.copyOf(parcelables, parcelables.length, Day[].class);
-
-        DayAdapter adapter = new DayAdapter(this, days);
+        setContentView(layout.activity_hourly_forecast);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(menu.menu_daily_forecast, menu);
+        getMenuInflater().inflate(menu.menu_hourly_forecast, menu);
         return true;
     }
 
@@ -41,6 +29,7 @@ public class DailyForecastActivity extends ListActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        //noinspection SimplifiableIfStatement
         if (id == id.action_settings) {
             return true;
         }

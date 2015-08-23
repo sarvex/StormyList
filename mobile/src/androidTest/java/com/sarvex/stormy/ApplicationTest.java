@@ -1,4 +1,4 @@
-package sarvex.com.stormy;
+package com.sarvex.stormy;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

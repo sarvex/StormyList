@@ -1,4 +1,4 @@
-package sarvex.com.stormy.weather;
+package com.sarvex.stormy.weather;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 public class Day implements Parcelable {
-    public static final Creator<Day> CREATOR = new Creator<Day>() {
+    public static final Parcelable.Creator<Day> CREATOR = new Parcelable.Creator<Day>() {
         @Override
         public Day createFromParcel(Parcel parcel) {
             return new Day(parcel);

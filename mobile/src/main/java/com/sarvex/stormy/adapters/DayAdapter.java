@@ -1,4 +1,4 @@
-package sarvex.com.stormy.adapters;
+package com.sarvex.stormy.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -8,9 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import sarvex.com.stormy.R.id;
-import sarvex.com.stormy.R.layout;
-import sarvex.com.stormy.weather.Day;
+import com.sarvex.stormy.R.id;
+import com.sarvex.stormy.R.layout;
+import com.sarvex.stormy.weather.Day;
 
 public class DayAdapter extends BaseAdapter {
 
@@ -40,18 +40,18 @@ public class DayAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View view, ViewGroup parent) {
 
-        DayAdapter.ViewHolder holder;
+        ViewHolder holder;
 
         if (view == null) {
             view = LayoutInflater.from(context).inflate(layout.daily_list_item, null);
-            holder = new DayAdapter.ViewHolder();
+            holder = new ViewHolder();
             holder.iconImageView = (ImageView) view.findViewById(id.iconImageView);
             holder.temperatureLabel = (TextView) view.findViewById(id.temperatureLabel);
             holder.dayLabel = (TextView) view.findViewById(id.dayNameLabel);
 
             view.setTag(holder);
         } else {
-            holder = (DayAdapter.ViewHolder) view.getTag();
+            holder = (ViewHolder) view.getTag();
         }
 
         final Day day = days[position];

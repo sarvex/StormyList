@@ -1,6 +1,6 @@
-package sarvex.com.stormy.weather;
+package com.sarvex.stormy.weather;
 
-import sarvex.com.stormy.R.drawable;
+import com.sarvex.stormy.R.drawable;
 
 public class Forecast {
     private Current current;

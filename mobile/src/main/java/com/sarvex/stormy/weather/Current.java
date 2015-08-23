@@ -1,4 +1,4 @@
-package sarvex.com.stormy.weather;
+package com.sarvex.stormy.weather;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -14,28 +14,12 @@ public class Current {
     private String summary;
     private String timezone;
 
-    public String getTimezone() {
-        return timezone;
-    }
-
-    public void setTimezone(String timezone) {
-        this.timezone = timezone;
-    }
-
     public String getIcon() {
         return icon;
     }
 
     public void setIcon(String icon) {
         this.icon = icon;
-    }
-
-    public long getTime() {
-        return time;
-    }
-
-    public void setTime(long time) {
-        this.time = time;
     }
 
     public String getFormattedTime() {
@@ -45,6 +29,22 @@ public class Current {
         String timeString = formatter.format(dateTime);
 
         return timeString;
+    }
+
+    public String getTimezone() {
+        return timezone;
+    }
+
+    public void setTimezone(String timezone) {
+        this.timezone = timezone;
+    }
+
+    public long getTime() {
+        return time;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
     }
 
     public int getTemperature() {

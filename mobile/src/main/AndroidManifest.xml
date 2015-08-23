@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
-    package="sarvex.com.stormy"
+  package="com.sarvex.stormy"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -28,7 +28,7 @@
             android:parentActivityName=".ui.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="sarvex.com.stormy.ui.MainActivity"/>
+                android:value=".ui.MainActivity"/>
         </activity>
         <activity
             android:name=".ui.HourlyForecastActivity"
@@ -36,7 +36,7 @@
             android:parentActivityName=".ui.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="sarvex.com.stormy.ui.MainActivity"/>
+                android:value=".ui.MainActivity"/>
         </activity>
     </application>
 
