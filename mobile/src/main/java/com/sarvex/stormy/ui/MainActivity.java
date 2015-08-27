@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.sarvex.stormy.R;
+import com.sarvex.stormy.utility.Intend;
 import com.sarvex.stormy.weather.Current;
 import com.sarvex.stormy.weather.Day;
 import com.sarvex.stormy.weather.Forecast;
@@ -41,17 +42,15 @@ import butterknife.OnClick;
 public class MainActivity extends AppCompatActivity {
 
   public static final String TAG = MainActivity.class.getSimpleName();
-  public static final String DAILY_FORECAST = "DAILY_FORECAST";
-  private static final String HOURLY_FORECAST = "HOURLY_FORECAST";
   public static final double LATITUDE = 37.8267;
   public static final double LONGITUDE = -122.423;
 
   @Bind(R.id.timeLabel) TextView timeLabel;
-  @Bind(R.id.temperatureLabel) TextView temperatureLabel;
+  @Bind(R.id.temperature_label) TextView temperatureLabel;
   @Bind(R.id.humidityValue) TextView humidityValue;
   @Bind(R.id.precipitationValue) TextView precipitationValue;
   @Bind(R.id.summaryLabel) TextView summaryLabel;
-  @Bind(R.id.iconImageView) ImageView iconImageView;
+  @Bind(R.id.icon_image_view) ImageView iconImageView;
   @Bind(R.id.refreshImageView) ImageView refreshImageView;
   @Bind(R.id.progressBar) ProgressBar progressBar;
 
@@ -209,7 +208,6 @@ public class MainActivity extends AppCompatActivity {
     JSONArray data = hourly.getJSONArray("data");
 
     List<Hour> hours = new ArrayList<>(data.length());
-
     for (int i = 0; i < data.length(); i++) {
       JSONObject jsonHour = data.getJSONObject(i);
       Hour hour = new Hour();
@@ -220,37 +218,44 @@ public class MainActivity extends AppCompatActivity {
       hour.setTime(jsonHour.getLong("time"));
       hour.setTimezone(timezone);
 
-      hours.set(i, hour);
+      hours.add(hour);
     }
 
     return hours;
   }
 
-  private List<Day> getDailyForecast(String jsonData) {
-    return new ArrayList<>(0);
+  private List<Day> getDailyForecast(String json) throws JSONException {
+    JSONObject forecast = new JSONObject(json);
+    String timezone = forecast.getString("timezone");
+    JSONObject daily = forecast.getJSONObject("daily");
+    JSONArray data = daily.getJSONArray("data");
+
+    List<Day> days = new ArrayList<>(data.length());
+    for (int i = 0; i < data.length(); i++) {
+      JSONObject jsonDay = data.getJSONObject(i);
+      Day day = new Day();
+
+      day.setSummary(jsonDay.getString("summary"));
+      day.setIcon(jsonDay.getString("icon"));
+      day.setTemperatureMax(jsonDay.getDouble("temperatureMax"));
+      day.setTime(jsonDay.getLong("time"));
+      day.setTimezone(timezone);
+
+      days.add(day);
+    }
+
+    return days;
   }
 
-  @OnClick(R.id.dailyButton)
+  @OnClick(R.id.daily_button)
   public void startDailyActivity(View view) {
-    startActivity(new Intent(this, DailyForecastActivity.class).putParcelableArrayListExtra(DAILY_FORECAST, (ArrayList<Day>) forecast.getDailyForecast()));
+    startActivity(new Intent(this, DailyForecastActivity.class)
+        .putParcelableArrayListExtra(Intend.DAILY_FORECAST, (ArrayList<Day>) forecast.getDailyForecast()));
   }
 
-  @OnClick(R.id.hourlyButton)
+  @OnClick(R.id.hourly_button)
   public void startHourlyActivity(View view) {
-    startActivity(new Intent(this, HourlyForecastActivity.class).putParcelableArrayListExtra(HOURLY_FORECAST, (ArrayList<Hour>) forecast.getHourlyForecast()));
+    startActivity(new Intent(this, HourlyForecastActivity.class)
+        .putParcelableArrayListExtra(Intend.HOURLY_FORECAST, (ArrayList<Hour>) forecast.getHourlyForecast()));
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

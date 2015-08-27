@@ -11,7 +11,6 @@
     <string name="title_activity_daily_forecast">DailyForecastActivity</string>
     <string name="no_daily_forecast_data">There is no data to display</string>
     <string name="hourly">Hourly</string>
-    <string name="seven_days">7 DAY</string>
     <string name="blank">--</string>
     <string name="ellipsis">...</string>
     <string name="location">Alcatraz Island, CA</string>
@@ -19,5 +18,9 @@
     <string name="rain_snow">RAIN/SNOW?</string>
     <string name="getting_current_weather">Getting current weather...</string>
     <string name="title_activity_hourly_forecast">HourlyForecastActivity</string>
+    <string name="weekly">Weekly</string>
+    <string name="this_weeks_weather">This Week\'s Weather</string>
+    <string name="location_place_holder">Alcatraz Island, CA</string>
+    <string name="daily">Daily</string>
 
 </resources>

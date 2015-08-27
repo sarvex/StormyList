@@ -2,51 +2,32 @@ package com.sarvex.stormy.ui;
 
 import android.app.ListActivity;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 
-import com.sarvex.stormy.R;
 import com.sarvex.stormy.R.layout;
 import com.sarvex.stormy.adapters.DayAdapter;
+import com.sarvex.stormy.utility.Intend;
 import com.sarvex.stormy.weather.Day;
 
 import java.util.Arrays;
+import java.util.List;
 
 
 public class DailyForecastActivity extends ListActivity {
 
-    private Day[] days;
+  private List<Day> days;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(layout.activity_daily_forecast);
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(layout.activity_daily_forecast);
 
-        Parcelable[] parcelables = getIntent().getParcelableArrayExtra(MainActivity.DAILY_FORECAST);
-        days = Arrays.copyOf(parcelables, parcelables.length, Day[].class);
+    days = getIntent().getParcelableArrayListExtra(Intend.DAILY_FORECAST);
 
-        DayAdapter adapter = new DayAdapter(this, days);
-    }
+    DayAdapter dayAdapter = new DayAdapter(this, days);
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_daily_forecast, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
+    List<String> daysOfTheWeek = Arrays.asList("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
+    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, daysOfTheWeek);
+    setListAdapter(arrayAdapter);
+  }
 }

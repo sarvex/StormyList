@@ -11,15 +11,12 @@ import com.sarvex.stormy.R.string;
 
 public class AlertDialogFragment extends DialogFragment {
 
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Context context = getActivity();
-      AlertDialog.Builder builder = new AlertDialog.Builder(context)
-                .setTitle(context.getString(string.error_title))
-                .setMessage(context.getString(string.error_message))
-                .setPositiveButton(context.getString(string.error_ok_button_text), null);
-
-        AlertDialog dialog = builder.create();
-        return dialog;
-    }
+  @Override
+  public Dialog onCreateDialog(Bundle savedInstanceState) {
+    final Context context = getActivity();
+    return new AlertDialog.Builder(context)
+        .setTitle(context.getString(string.error_title))
+        .setMessage(context.getString(string.error_message))
+        .setPositiveButton(context.getString(string.error_ok_button_text), null).create();
+  }
 }

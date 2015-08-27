@@ -12,64 +12,66 @@ import com.sarvex.stormy.R.id;
 import com.sarvex.stormy.R.layout;
 import com.sarvex.stormy.weather.Day;
 
+import java.util.List;
+
 public class DayAdapter extends BaseAdapter {
 
-    private final Context context;
-    private final Day[] days;
+  private final Context context;
+  private final List<Day> days;
 
-    public DayAdapter(Context context, Day[] days) {
-        this.context = context;
-        this.days = days;
+  public DayAdapter(Context context, List<Day> days) {
+    this.context = context;
+    this.days = days;
+  }
+
+  @Override
+  public int getCount() {
+    return days.size();
+  }
+
+  @Override
+  public Object getItem(int position) {
+    return days.get(position);
+  }
+
+  @Override
+  public long getItemId(int position) {
+    return 0; // not used: Tag items for easy use
+  }
+
+  @Override
+  public View getView(int position, View view, ViewGroup parent) {
+
+    ViewHolder holder;
+
+    if (view == null) {
+      view = LayoutInflater.from(context).inflate(layout.daily_list_item, null);
+      holder = new ViewHolder();
+      holder.iconImageView = (ImageView) view.findViewById(id.icon_image_view);
+      holder.temperatureLabel = (TextView) view.findViewById(id.temperature_label);
+      holder.dayLabel = (TextView) view.findViewById(id.day_name_label);
+
+      view.setTag(holder);
+    } else {
+      holder = (ViewHolder) view.getTag();
     }
 
-    @Override
-    public int getCount() {
-        return days.length;
+    final Day day = days.get(position);
+    holder.iconImageView.setImageResource(day.getIconId());
+    holder.temperatureLabel.setText(String.valueOf(day.getTemperatureMax()));
+
+    if (position == 0) {
+      holder.dayLabel.setText("Today");
+    } else {
+      holder.dayLabel.setText(day.getDayOfTheWeek());
     }
 
-    @Override
-    public Object getItem(int position) {
-        return days[position];
-    }
+    return view;
+  }
 
-    @Override
-    public long getItemId(int position) {
-        return 0; // not used: Tag items for easy use
-    }
-
-    @Override
-    public View getView(int position, View view, ViewGroup parent) {
-
-        ViewHolder holder;
-
-        if (view == null) {
-            view = LayoutInflater.from(context).inflate(layout.daily_list_item, null);
-            holder = new ViewHolder();
-            holder.iconImageView = (ImageView) view.findViewById(id.iconImageView);
-            holder.temperatureLabel = (TextView) view.findViewById(id.temperatureLabel);
-            holder.dayLabel = (TextView) view.findViewById(id.dayNameLabel);
-
-            view.setTag(holder);
-        } else {
-            holder = (ViewHolder) view.getTag();
-        }
-
-        final Day day = days[position];
-        holder.iconImageView.setImageResource(day.getIconId());
-        holder.temperatureLabel.setText(String.valueOf(day.getTemperatureMax()));
-
-        if (position == 0) {
-            holder.dayLabel.setText("Today");
-        } else {
-            holder.dayLabel.setText(day.getDayOfTheWeek());
-        }
-
-        return view;
-    }
-
-    private static class ViewHolder {
-        ImageView iconImageView;
-        TextView temperatureLabel;
-        TextView dayLabel;
-    }
+  private static class ViewHolder {
+    ImageView iconImageView;
+    TextView temperatureLabel;
+    TextView dayLabel;
+  }
 }

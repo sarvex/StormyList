@@ -7,7 +7,7 @@
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:paddingTop="@dimen/activity_vertical_margin"
-                tools:context="sarvex.com.stormy.ui.HourlyForecastActivity">
+                tools:context=".ui.HourlyForecastActivity">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView"

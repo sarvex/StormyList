@@ -38,7 +38,7 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:text="This Week&apos;s Weather"
+        android:text="@string/this_weeks_weather"
         android:textColor="#ffffffff"
         android:textSize="30sp"/>
 
@@ -49,7 +49,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"
-        android:text="Alcatraz Island, CA"
+        android:text="@string/location_place_holder"
         android:textColor="#ffffffff"
         android:textSize="18sp"/>
 
