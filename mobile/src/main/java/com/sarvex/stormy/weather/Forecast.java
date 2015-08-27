@@ -2,10 +2,12 @@ package com.sarvex.stormy.weather;
 
 import com.sarvex.stormy.R.drawable;
 
+import java.util.List;
+
 public class Forecast {
     private Current current;
-    private Hour[] hourlyForecast;
-    private Day[] dailyForecast;
+    private List<Hour> hourlyForecast;
+    private List<Day> dailyForecast;
 
     public static int getIconId(String icon) {
         // clear-day, clear-night, rain, snow, sleet, wind, fog, cloudy, partly-cloudy-day, or partly-cloudy-night.
@@ -55,19 +57,19 @@ public class Forecast {
         this.current = current;
     }
 
-    public Hour[] getHourlyForecast() {
+    public List<Hour> getHourlyForecast() {
         return hourlyForecast;
     }
 
-    public void setHourlyForecast(Hour[] hourlyForecast) {
+    public void setHourlyForecast(List<Hour> hourlyForecast) {
         this.hourlyForecast = hourlyForecast;
     }
 
-    public Day[] getDailyForecast() {
+    public List<Day> getDailyForecast() {
         return dailyForecast;
     }
 
-    public void setDailyForecast(Day[] dailyForecast) {
+    public void setDailyForecast(List<Day> dailyForecast) {
         this.dailyForecast = dailyForecast;
     }
 

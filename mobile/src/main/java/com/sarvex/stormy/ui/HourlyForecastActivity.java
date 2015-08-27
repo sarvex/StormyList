@@ -5,6 +5,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.sarvex.stormy.R;
 import com.sarvex.stormy.R.layout;
 
 public class HourlyForecastActivity extends ActionBarActivity {
@@ -18,7 +19,7 @@ public class HourlyForecastActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(menu.menu_hourly_forecast, menu);
+        getMenuInflater().inflate(R.menu.menu_hourly_forecast, menu);
         return true;
     }
 
@@ -30,7 +31,7 @@ public class HourlyForecastActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == id.action_settings) {
+        if (id == R.id.action_settings) {
             return true;
         }
 

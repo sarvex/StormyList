@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.sarvex.stormy.R;
 import com.sarvex.stormy.R.layout;
 import com.sarvex.stormy.adapters.DayAdapter;
 import com.sarvex.stormy.weather.Day;
@@ -31,7 +32,7 @@ public class DailyForecastActivity extends ListActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(menu.menu_daily_forecast, menu);
+        getMenuInflater().inflate(R.menu.menu_daily_forecast, menu);
         return true;
     }
 
@@ -42,7 +43,7 @@ public class DailyForecastActivity extends ListActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if (id == id.action_settings) {
+        if (id == R.id.action_settings) {
             return true;
         }
 

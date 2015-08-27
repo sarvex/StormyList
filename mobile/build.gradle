@@ -28,7 +28,7 @@ android {
   }
 
   packagingOptions {
-    exclude 'META-INF/services/javax.annotation.processing.Processor'  // butterknife
+    exclude 'META-INF/services/javax.annotation.processing.Processor'
   }
 }
 
