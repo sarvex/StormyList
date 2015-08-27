@@ -1,40 +1,37 @@
 package com.sarvex.stormy.ui;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.LayoutManager;
 
 import com.sarvex.stormy.R;
 import com.sarvex.stormy.R.layout;
+import com.sarvex.stormy.adapters.HourAdapter;
+import com.sarvex.stormy.utility.Intend;
+import com.sarvex.stormy.weather.Hour;
 
-public class HourlyForecastActivity extends ActionBarActivity {
+import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
+public class HourlyForecastActivity extends AppCompatActivity {
+
+  private List<Hour> hours;
+  @Bind(R.id.recycler_view) RecyclerView recyclerView;
 
   @Override
-  protected void onCreate(Bundle savedInstanceState) {
+  protected void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(layout.activity_hourly_forecast);
-  }
+    ButterKnife.bind(this);
 
-  @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-    // Inflate the menu; this adds items to the action bar if it is present.
-    getMenuInflater().inflate(R.menu.menu_hourly_forecast, menu);
-    return true;
-  }
-
-  @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
-    // Handle action bar item clicks here. The action bar will
-    // automatically handle clicks on the Home/Up button, so long
-    // as you specify a parent activity in AndroidManifest.xml.
-    int id = item.getItemId();
-
-    //noinspection SimplifiableIfStatement
-    if (id == R.id.action_settings) {
-      return true;
-    }
-
-    return super.onOptionsItemSelected(item);
+    hours = getIntent().getParcelableArrayListExtra(Intend.HOURLY_FORECAST);
+    recyclerView.setAdapter(new HourAdapter(hours));
+    final LayoutManager layoutManager = new LinearLayoutManager(this);
+    recyclerView.setLayoutManager(layoutManager);
+    recyclerView.setHasFixedSize(true);
   }
 }

@@ -7,7 +7,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -41,7 +40,6 @@ import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
 
-  public static final String TAG = MainActivity.class.getSimpleName();
   public static final double LATITUDE = 37.8267;
   public static final double LONGITUDE = -122.423;
 
@@ -57,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
   private Forecast forecast;
 
   @Override
-  protected void onCreate(Bundle savedInstanceState) {
+  protected void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     ButterKnife.bind(this);
@@ -67,25 +65,25 @@ public class MainActivity extends AppCompatActivity {
   }
 
   @OnClick(R.id.refreshImageView)
-  public void refreshImageClicked(View view) {
+  public void refreshImageClicked(final View view) {
     getForecast(LATITUDE, LONGITUDE);
   }
 
-  private void getForecast(double latitude, double longitude) {
-    String apiKey = "27974c4bc33201748eaf542a6769c3b7";
-    String forecastUrl = "https://api.forecast.io/forecast/" + apiKey +
+  private void getForecast(final double latitude, final double longitude) {
+    final String apiKey = "27974c4bc33201748eaf542a6769c3b7";
+    final String forecastUrl = "https://api.forecast.io/forecast/" + apiKey +
         "/" + latitude + "," + longitude;
 
     if (isNetworkAvailable()) {
       toggleRefresh();
 
-      OkHttpClient client = new OkHttpClient();
-      Request request = new Builder().url(forecastUrl).build();
+      final OkHttpClient client = new OkHttpClient();
+      final Request request = new Builder().url(forecastUrl).build();
 
-      Call call = client.newCall(request);
+      final Call call = client.newCall(request);
       call.enqueue(new Callback() {
         @Override
-        public void onFailure(Request request, IOException e) {
+        public void onFailure(final Request request, final IOException e) {
           runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -96,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onResponse(Response response) {
+        public void onResponse(final Response response) {
           runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -105,8 +103,7 @@ public class MainActivity extends AppCompatActivity {
           });
 
           try {
-            String jsonData = response.body().string();
-            Log.v(MainActivity.TAG, jsonData);
+            final String jsonData = response.body().string();
             if (response.isSuccessful()) {
               forecast = parseForecastDetails(jsonData);
               runOnUiThread(new Runnable() {
@@ -118,10 +115,8 @@ public class MainActivity extends AppCompatActivity {
             } else {
               alertUserAboutError();
             }
-          } catch (IOException e) {
-            Log.e(MainActivity.TAG, "Exception caught: ", e);
-          } catch (JSONException e) {
-            Log.e(MainActivity.TAG, "Exception caught: ", e);
+          } catch (final IOException e) {
+          } catch (final JSONException e) {
           }
         }
       });
@@ -131,8 +126,8 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private boolean isNetworkAvailable() {
-    ConnectivityManager manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-    NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+    final ConnectivityManager manager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+    final NetworkInfo networkInfo = manager.getActiveNetworkInfo();
     boolean isAvailable = false;
     if ((networkInfo != null) && networkInfo.isConnected()) {
       isAvailable = true;
@@ -152,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void alertUserAboutError() {
-    AlertDialogFragment dialog = new AlertDialogFragment();
+    final AlertDialogFragment dialog = new AlertDialogFragment();
     dialog.show(getFragmentManager(), "error_dialog");
   }
 
@@ -176,46 +171,42 @@ public class MainActivity extends AppCompatActivity {
     precipitationValue.setText(current.getPrecipitation() + "%");
     summaryLabel.setText(current.getSummary());
 
-    Drawable drawable = getResources().getDrawable(current.getIconId());
+    final Drawable drawable = getResources().getDrawable(current.getIconId());
     iconImageView.setImageDrawable(drawable);
   }
 
-  private Current getCurrentDetails(String json) throws JSONException {
-    JSONObject forecast = new JSONObject(json);
-    String timezone = forecast.getString("timezone");
-    Log.i(MainActivity.TAG, "From JSON: " + timezone);
+  private Current getCurrentDetails(final String json) throws JSONException {
+    final JSONObject forecast = new JSONObject(json);
+    final String timezone = forecast.getString(com.sarvex.stormy.utility.Response.TIMEZONE);
+    final JSONObject currently = forecast.getJSONObject(com.sarvex.stormy.utility.Response.CURRENTLY);
 
-    JSONObject currently = forecast.getJSONObject("currently");
-
-    Current current = new Current();
-    current.setHumidity(currently.getDouble("humidity"));
-    current.setTime(currently.getLong("time"));
-    current.setIcon(currently.getString("icon"));
-    current.setPrecipitation(currently.getDouble("precipProbability"));
-    current.setSummary(currently.getString("summary"));
-    current.setTemperature(currently.getDouble("temperature"));
+    final Current current = new Current();
+    current.setHumidity(currently.getDouble(com.sarvex.stormy.utility.Response.HUMIDITY));
+    current.setTime(currently.getLong(com.sarvex.stormy.utility.Response.TIME));
+    current.setIcon(currently.getString(com.sarvex.stormy.utility.Response.ICON));
+    current.setPrecipitation(currently.getDouble(com.sarvex.stormy.utility.Response.PRECIP_PROBABILITY));
+    current.setSummary(currently.getString(com.sarvex.stormy.utility.Response.SUMMARY));
+    current.setTemperature(currently.getDouble(com.sarvex.stormy.utility.Response.TEMPERATURE));
     current.setTimezone(timezone);
-
-    Log.d(MainActivity.TAG, current.getFormattedTime());
 
     return current;
   }
 
-  private List<Hour> getHourlyForecast(String jsonData) throws JSONException {
-    JSONObject forecast = new JSONObject(jsonData);
-    String timezone = forecast.getString("timezone");
-    JSONObject hourly = forecast.getJSONObject("hourly");
-    JSONArray data = hourly.getJSONArray("data");
+  private List<Hour> getHourlyForecast(final String jsonData) throws JSONException {
+    final JSONObject forecast = new JSONObject(jsonData);
+    final String timezone = forecast.getString(com.sarvex.stormy.utility.Response.TIMEZONE);
+    final JSONObject hourly = forecast.getJSONObject(com.sarvex.stormy.utility.Response.HOURLY);
+    final JSONArray data = hourly.getJSONArray(com.sarvex.stormy.utility.Response.DATA);
 
-    List<Hour> hours = new ArrayList<>(data.length());
+    final List<Hour> hours = new ArrayList<>(data.length());
     for (int i = 0; i < data.length(); i++) {
-      JSONObject jsonHour = data.getJSONObject(i);
-      Hour hour = new Hour();
+      final JSONObject jsonHour = data.getJSONObject(i);
+      final Hour hour = new Hour();
 
-      hour.setSummary(jsonHour.getString("summary"));
-      hour.setTemperature(jsonHour.getDouble("temperature"));
-      hour.setIcon(jsonHour.getString("icon"));
-      hour.setTime(jsonHour.getLong("time"));
+      hour.setSummary(jsonHour.getString(com.sarvex.stormy.utility.Response.SUMMARY));
+      hour.setTemperature(jsonHour.getDouble(com.sarvex.stormy.utility.Response.TEMPERATURE));
+      hour.setIcon(jsonHour.getString(com.sarvex.stormy.utility.Response.ICON));
+      hour.setTime(jsonHour.getLong(com.sarvex.stormy.utility.Response.TIME));
       hour.setTimezone(timezone);
 
       hours.add(hour);
@@ -224,21 +215,21 @@ public class MainActivity extends AppCompatActivity {
     return hours;
   }
 
-  private List<Day> getDailyForecast(String json) throws JSONException {
-    JSONObject forecast = new JSONObject(json);
-    String timezone = forecast.getString("timezone");
-    JSONObject daily = forecast.getJSONObject("daily");
-    JSONArray data = daily.getJSONArray("data");
+  private List<Day> getDailyForecast(final String json) throws JSONException {
+    final JSONObject forecast = new JSONObject(json);
+    final String timezone = forecast.getString(com.sarvex.stormy.utility.Response.TIMEZONE);
+    final JSONObject daily = forecast.getJSONObject(com.sarvex.stormy.utility.Response.DAILY);
+    final JSONArray data = daily.getJSONArray(com.sarvex.stormy.utility.Response.DATA);
 
-    List<Day> days = new ArrayList<>(data.length());
+    final List<Day> days = new ArrayList<>(data.length());
     for (int i = 0; i < data.length(); i++) {
-      JSONObject jsonDay = data.getJSONObject(i);
-      Day day = new Day();
+      final JSONObject jsonDay = data.getJSONObject(i);
+      final Day day = new Day();
 
-      day.setSummary(jsonDay.getString("summary"));
-      day.setIcon(jsonDay.getString("icon"));
-      day.setTemperatureMax(jsonDay.getDouble("temperatureMax"));
-      day.setTime(jsonDay.getLong("time"));
+      day.setSummary(jsonDay.getString(com.sarvex.stormy.utility.Response.SUMMARY));
+      day.setIcon(jsonDay.getString(com.sarvex.stormy.utility.Response.ICON));
+      day.setTemperatureMax(jsonDay.getDouble(com.sarvex.stormy.utility.Response.TEMPERATURE_MAX));
+      day.setTime(jsonDay.getLong(com.sarvex.stormy.utility.Response.TIME));
       day.setTimezone(timezone);
 
       days.add(day);
@@ -248,13 +239,13 @@ public class MainActivity extends AppCompatActivity {
   }
 
   @OnClick(R.id.daily_button)
-  public void startDailyActivity(View view) {
+  public void startDailyActivity(final View view) {
     startActivity(new Intent(this, DailyForecastActivity.class)
         .putParcelableArrayListExtra(Intend.DAILY_FORECAST, (ArrayList<Day>) forecast.getDailyForecast()));
   }
 
   @OnClick(R.id.hourly_button)
-  public void startHourlyActivity(View view) {
+  public void startHourlyActivity(final View view) {
     startActivity(new Intent(this, HourlyForecastActivity.class)
         .putParcelableArrayListExtra(Intend.HOURLY_FORECAST, (ArrayList<Hour>) forecast.getHourlyForecast()));
   }

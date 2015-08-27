@@ -3,8 +3,24 @@ package com.sarvex.stormy.weather;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.TimeZone;
+
 @org.parceler.Parcel
 public class Hour implements Parcelable {
+  public static final Creator<Hour> CREATOR = new Creator<Hour>() {
+    @Override
+    public Hour createFromParcel(final Parcel in) {
+      return new Hour(in);
+    }
+
+    @Override
+    public Hour[] newArray(final int size) {
+      return new Hour[size];
+    }
+  };
+
   private long time;
   private String summary;
   private double temperature;
@@ -14,7 +30,7 @@ public class Hour implements Parcelable {
   public Hour() {
   }
 
-  private Hour(Parcel parcel) {
+  private Hour(final Parcel parcel) {
     time = parcel.readLong();
     summary = parcel.readString();
     temperature = parcel.readDouble();
@@ -26,7 +42,7 @@ public class Hour implements Parcelable {
     return time;
   }
 
-  public void setTime(long time) {
+  public void setTime(final long time) {
     this.time = time;
   }
 
@@ -34,15 +50,15 @@ public class Hour implements Parcelable {
     return summary;
   }
 
-  public void setSummary(String summary) {
+  public void setSummary(final String summary) {
     this.summary = summary;
   }
 
-  public double getTemperature() {
-    return temperature;
+  public int getTemperature() {
+    return (int) Math.round(temperature);
   }
 
-  public void setTemperature(double temperature) {
+  public void setTemperature(final double temperature) {
     this.temperature = temperature;
   }
 
@@ -50,7 +66,11 @@ public class Hour implements Parcelable {
     return icon;
   }
 
-  public void setIcon(String icon) {
+  public int getIconId() {
+    return Forecast.getIconId(icon);
+  }
+
+  public void setIcon(final String icon) {
     this.icon = icon;
   }
 
@@ -58,8 +78,15 @@ public class Hour implements Parcelable {
     return timezone;
   }
 
-  public void setTimezone(String timezone) {
+  public void setTimezone(final String timezone) {
     this.timezone = timezone;
+  }
+
+  public String getHour() {
+    SimpleDateFormat formatter = new SimpleDateFormat("h a");
+    formatter.setTimeZone(TimeZone.getTimeZone(timezone));
+    Date date = new Date(time * 1000);
+    return formatter.format(date);
   }
 
   @Override
@@ -68,7 +95,7 @@ public class Hour implements Parcelable {
   }
 
   @Override
-  public void writeToParcel(Parcel parcel, int flags) {
+  public void writeToParcel(final Parcel parcel, final int flags) {
     parcel.writeLong(time);
     parcel.writeString(summary);
     parcel.writeDouble(temperature);

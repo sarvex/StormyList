@@ -8,18 +8,20 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.sarvex.stormy.R.id;
-import com.sarvex.stormy.R.layout;
+import com.sarvex.stormy.R;
 import com.sarvex.stormy.weather.Day;
 
 import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class DayAdapter extends BaseAdapter {
 
   private final Context context;
   private final List<Day> days;
 
-  public DayAdapter(Context context, List<Day> days) {
+  public DayAdapter(final Context context, final List<Day> days) {
     this.context = context;
     this.days = days;
   }
@@ -30,27 +32,23 @@ public class DayAdapter extends BaseAdapter {
   }
 
   @Override
-  public Object getItem(int position) {
+  public Object getItem(final int position) {
     return days.get(position);
   }
 
   @Override
-  public long getItemId(int position) {
-    return 0; // not used: Tag items for easy use
+  public long getItemId(final int position) {
+    return 0;
   }
 
   @Override
-  public View getView(int position, View view, ViewGroup parent) {
-
-    ViewHolder holder;
+  public View getView(final int position, final View convertView, final ViewGroup parent) {
+    View view = convertView;
+    final ViewHolder holder;
 
     if (view == null) {
-      view = LayoutInflater.from(context).inflate(layout.daily_list_item, null);
-      holder = new ViewHolder();
-      holder.iconImageView = (ImageView) view.findViewById(id.icon_image_view);
-      holder.temperatureLabel = (TextView) view.findViewById(id.temperature_label);
-      holder.dayLabel = (TextView) view.findViewById(id.day_name_label);
-
+      view = LayoutInflater.from(context).inflate(R.layout.daily_list_item, parent, false);
+      holder = new ViewHolder(view);
       view.setTag(holder);
     } else {
       holder = (ViewHolder) view.getTag();
@@ -69,9 +67,13 @@ public class DayAdapter extends BaseAdapter {
     return view;
   }
 
-  private static class ViewHolder {
-    ImageView iconImageView;
-    TextView temperatureLabel;
-    TextView dayLabel;
+  static class ViewHolder {
+    @Bind(R.id.icon_image_view) ImageView iconImageView;
+    @Bind(R.id.temperature_label) TextView temperatureLabel;
+    @Bind(R.id.day_name_label) TextView dayLabel;
+
+    ViewHolder(final View view) {
+      ButterKnife.bind(this, view);
+    }
   }
 }
