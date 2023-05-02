@@ -43,7 +43,7 @@ dependencies {
 
   compile "org.parceler:parceler-api:1.1.13"
   apt "org.parceler:parceler:1.0.3"
-  compile 'com.sora.util.akatsuki:akatsuki-api:0.0.1'
+  compile 'com.sora.util.akatsuki:akatsuki-api:0.2.0'
   apt 'com.sora.util.akatsuki:akatsuki-compiler:0.2.0'
   compile 'com.sora.util.akatsuki:akatsuki-parceler:0.2.0@aar'
 
