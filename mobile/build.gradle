@@ -47,6 +47,6 @@ dependencies {
   apt 'com.sora.util.akatsuki:akatsuki-compiler:0.2.0'
   compile 'com.sora.util.akatsuki:akatsuki-parceler:0.2.0@aar'
 
-  debugCompile 'com.squareup.leakcanary:leakcanary-android:1.6.3'
+  debugCompile 'com.squareup.leakcanary:leakcanary-android:2.10'
   releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
 }
